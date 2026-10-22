@@ -1,0 +1,22 @@
+# .mise.toml — local tooling, exact pins (repo convention). CI runs the same
+# tasks, so `mise run check` locally is what the pipeline checks.
+
+[tools]
+neovim = "0.12.6"
+stylua = "2.6.0"
+
+[tasks.test]
+description = "Run the headless test script"
+run = "nvim --headless -u NONE -l tests/run.lua"
+
+[tasks.lint]
+description = "Check formatting"
+run = "stylua --check lua tests"
+
+[tasks.fmt]
+description = "Format"
+run = "stylua lua tests"
+
+[tasks.check]
+description = "Everything CI runs"
+depends = ["lint", "test"]
